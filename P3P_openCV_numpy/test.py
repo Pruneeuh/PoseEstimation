@@ -1,0 +1,47 @@
+import numpy as np 
+from initialisation_parametres import projection3D2D
+
+def distance(pt, pt_estimation):
+    erreur = 0
+    for i in range(len(pt)):
+      erreur += (pt[i] - pt_estimation[i])**2
+    return np.sqrt(erreur)
+
+def affichage_erreur(solutions,points2D,points3D,A) : 
+   # solutions : matrice de solution renvoyée (4*3*4)
+   # points 2D : 4 pts 2D 
+   # points 3D : leur correspondance 3D
+   P1 = points3D[0]
+   P2 = points3D[1]
+   P3 = points3D[2]
+   P4 = points3D[3]
+
+   erreurs = []
+   nb_sol = 0
+
+   for i in range(len(solutions)) : 
+      R = solutions[i,:,1:] 
+      C = solutions[i,:,:1]
+
+      if not np.all(R==np.zeros((3,3))) : 
+        nb_sol += 1 
+        print("------------ Solution n° : ",nb_sol,"----------------")
+        print("R = \n",R,)
+        print("T = \n",C,)
+
+        p1_P3P = np.reshape(projection3D2D(P1,C,R,A),(1,2))
+        p2_P3P = np.reshape(projection3D2D(P2,C,R,A),(1,2))
+        p3_P3P = np.reshape(projection3D2D(P3,C,R,A),(1,2))
+        p4_P3P = np.reshape(projection3D2D(P4,C,R,A),(1,2))
+        pt_2D_P3P = np.concatenate((p1_P3P,p2_P3P,p3_P3P,p4_P3P),axis=0)    # (4,2)
+
+        erreurs.append([0])
+        for j in range(len(points2D)):
+            erreur_pt = distance(points2D[j],pt_2D_P3P[j])
+            print("erreur_pt",j," = ",erreur_pt)
+            erreurs[i]+=erreur_pt
+
+def comparaison_numpy_openCV(solution_openCV,solution_numpy) : 
+   print(solution_openCV)
+   print(solution_numpy)
+   
