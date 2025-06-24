@@ -8,9 +8,12 @@ def distance(pt, pt_estimation):
     return np.sqrt(erreur)
 
 def affichage_erreur(solutions,points2D,points3D,A) : 
-   # solutions : matrice de solution renvoyée (4*3*4)
-   # points 2D : 4 pts 2D 
-   # points 3D : leur correspondance 3D
+   # Compute the error of estimation for each points after the P3P algorithm 
+
+   # solutions : solution matrix returned by P3P (4*3*4)
+   # points 3D : 4 pts 3D used for P3P 
+   # points 2D : 4 pts 2D used for P3P (image of the 3D points)
+   
    P1 = points3D[0]
    P2 = points3D[1]
    P3 = points3D[2]
@@ -42,7 +45,7 @@ def affichage_erreur(solutions,points2D,points3D,A) :
             erreurs[i]+=erreur_pt
 
 def comparaison_numpy_openCV(solution_openCV,solution_numpy) : 
-   print("--------- Solutions : --------------------- ")
-   print("Solution open CV : \n",solution_openCV)
-   print("Solution numpy : \n",solution_numpy)
-   
+  print("--------- Solutions : --------------------- ")
+  print("Solution open CV : \n",solution_openCV)
+  print("Solution numpy : \n",solution_numpy)
+  
