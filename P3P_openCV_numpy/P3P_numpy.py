@@ -8,9 +8,11 @@ def sqrt_3(x) :
     return -(-x)**(1/3)
 
 
-# Solving a polynomial of 3rd degree
-def roots_cubic(a,b,c,d):
-  # output : roots of the polynomial a*x^3 + b*x^2 + c*x + d = 0
+  
+def polynomial_root_calculation_3rd_degree(a,b,c,d):
+  # Solving a polynomial of 3rd degree  
+  # Input : the 4th coefficiants of the polynomial 
+  # Output : roots of the polynomial a*x^3 + b*x^2 + c*x + d = 0  -> array : [x1,x2,x3]
 
   # Calculation of the discriminant
   p = (3*a*c - b**2)/(3*a**2)
@@ -31,11 +33,12 @@ def roots_cubic(a,b,c,d):
 
   return np.array(roots)
 
-# Solving a polynomial of 4th degree
 
-def roots_ferrari(a):
-    # input : array 5*1
-    # output : roots of the polynomial a[4]*x^4 + a[3]*x^3 + a[2]*x^2 + a[1]*x + a[0]     array 4*1
+def polynomial_root_calculation_4th_degree_ferrari(a):
+    # Solving a polynomial of 4th degree
+
+    # Input : array 5*1 with the 5 coefficiants of the polynomial 
+    # Output : roots of the polynomial a[4]*x^4 + a[3]*x^3 + a[2]*x^2 + a[1]*x + a[0]   -> array : [x1,x2,x3,x4]  (4*1)
 
     if np.shape(a)[0] != 5 :
       print("Expeted 5 coefficiants for a 4th order polynomial")
@@ -61,7 +64,7 @@ def roots_ferrari(a):
 
 
     # Solve the cubic equation m^3 + b2*m^2 + (b2^2/4  - b0)*m - b1^2/8 = 0
-    x_cube = roots_cubic(1,b2,(b2**2)/4-b0,(-b1**2)/8)
+    x_cube = polynomial_root_calculation_3rd_degree(1,b2,(b2**2)/4-b0,(-b1**2)/8)
 
     # Find a real and positive solution
     alpha_0 = 0
@@ -82,14 +85,15 @@ def roots_ferrari(a):
       x4 = - S - np.sqrt(-b2/2 - np.sqrt((b2**2)/4 - b0),dtype = complex)
     return np.array([x1,x2,x3,x4])
 
-# P3P algorithm code in numpy
 
 
 def P3P(pt3D,featuresVectors):
+  # P3P algorithm code in numpy
+
   # 3Dpoints : coordinates of the features points = [P1, P2, P3]  (3*3)
   # featuresVectors = [f1, f2, f3]  (3*3)
 
-  # output : matrix of solutions :  [[C1,R1],[C2,R2],[C3,R3],[C4,R4]] (4*3*4)
+  # Output : matrix of solutions :  [[C1,R1],[C2,R2],[C3,R3],[C4,R4]] (4*3*4)
 
   # Features Points
   P1 = pt3D[0]
@@ -173,7 +177,7 @@ def P3P(pt3D,featuresVectors):
   d12 = np.linalg.norm(P2-P1)
 
   # Computation of b = cot(beta)
-  cosBeta = np.dot(f1,f2)/(np.linalg.norm(f1)*np.linalg.norm(f2))      #division par norme pas utile si vecteur unitaire ?
+  cosBeta = np.dot(f1,f2)/(np.linalg.norm(f1)*np.linalg.norm(f2))   
   b = np.sqrt(1/(1-cosBeta**2))
   if cosBeta < 0 :
     b = -b
@@ -184,15 +188,16 @@ def P3P(pt3D,featuresVectors):
   a2 = - phi2**2 * p1**2 * p2**2 - phi2**2 * p2**2 * d12**2 * b**2 - phi2**2 * p2**2 * d12**2 + phi2**2 * p2**4 + phi1**2 * p2 **4 + 2 * p1 * p2**2 * d12 + 2 * phi1 * phi2 * p1 * p2**2 * d12 * b - phi1**2 * p1**2 * p2**2 + 2 * phi2**2 * p1 * p2**2 * d12 - p2**2 * d12**2 * b**2 - 2 * p1**2 * p2**2
   a1 = 2 * p1**2 * p2 * d12 * b + 2 * phi1 * phi2 * p2**3 * d12 - 2 * phi2**2 * p2**3 * d12 * b - 2 * p1 * p2 * d12**2 * b
   a0 = - 2 * phi1 * phi2 * p1 * p2**2 * d12 * b + phi2**2 * p2**2 * d12**2 + 2 * p1**3 * d12 - p1**2 * d12**2 + phi2**2 * p1**2 * p2**2 - p1**4 - 2 * phi2**2 * p1 * p2**2 * d12 + phi1**2 * p1**2 * p2**2 + phi2**2 * p2**2 * d12**2 * b**2
+ 
   # Computation of the roots
-  roots = roots_ferrari(np.array([a0,a1,a2,a3,a4])) # (4,)
+  roots = polynomial_root_calculation_4th_degree_ferrari(np.array([a0,a1,a2,a3,a4])) # (4,)
 
   # For each solution of the polynomial
   for i in range(4):
-    if np.isclose(np.imag(roots[i]),0) : 
+    if np.isclose(np.imag(roots[i]),0) : # if real solution 
+
       # Computation of trigonometrics forms
       cos_teta = np.real(roots[i])
-      
       sin_teta = np.sqrt(1-cos_teta**2)
 
       cot_alpha = ((phi1/phi2)*p1 + cos_teta*p2 -d12*b )/ ((phi1/phi2)*cos_teta*p2 - p1 + d12)
@@ -207,7 +212,7 @@ def P3P(pt3D,featuresVectors):
       C = [d12*cos_alpha*(sin_alpha*b + cos_alpha), d12*sin_alpha*cos_teta*(sin_alpha*b+cos_alpha), d12*sin_alpha*sin_teta*(sin_alpha*b+cos_alpha)]     # (3,)
       Q = [[-cos_alpha, -sin_alpha*cos_teta, -sin_alpha*sin_teta], [sin_alpha, -cos_alpha*cos_teta, -cos_alpha*sin_teta], [0, -sin_teta, cos_teta]]      # (3*3)
 
-      # Computation of the absolute calera center
+      # Computation of the absolute camera center
       C = P1 + np.transpose(N) @ C  # (3,)
       C = C[:,np.newaxis]   # (3,1)
 
