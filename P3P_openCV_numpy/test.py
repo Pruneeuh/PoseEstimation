@@ -42,6 +42,7 @@ def affichage_erreur(solutions,points2D,points3D,A) :
             erreurs[i]+=erreur_pt
 
 def comparaison_numpy_openCV(solution_openCV,solution_numpy) : 
-   print(solution_openCV)
-   print(solution_numpy)
+   print("--------- Solutions : --------------------- ")
+   print("Solution open CV : \n",solution_openCV)
+   print("Solution numpy : \n",solution_numpy)
    

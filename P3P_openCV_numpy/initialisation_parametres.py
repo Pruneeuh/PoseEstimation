@@ -68,7 +68,6 @@ def pts_2D_4pts(points3D,T,R,A):
   P2 = points3D[1]
   P3 = points3D[2]
   P4 = points3D[3]
-  print(np.shape(P1))
 
   p1 = projection3D2D(P1,T,R,A)   # (2*1)
   p1 = np.reshape(p1,(1,2))       # (1,2)
