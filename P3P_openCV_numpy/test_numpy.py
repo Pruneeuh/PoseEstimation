@@ -1,5 +1,5 @@
 from initialisation_parametres import *
-from algop3p_numpy import P3P
+from P3P_numpy import P3P
 from test import *
 
 

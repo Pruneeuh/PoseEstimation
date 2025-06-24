@@ -1,5 +1,5 @@
 import numpy as np
-from algop3p_numpy import *
+from P3P_numpy import *
 
 # Test of roots_cubic
 def test_roots_cubic(a,b,c,d):
