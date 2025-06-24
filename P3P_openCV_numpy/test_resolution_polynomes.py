@@ -27,7 +27,7 @@ def test_polynomial_root_calculation_3rd_degree(a,b,c,d):
     if np.linalg.norm(y) > 10**(-10) :
       valeur_ok = False
 
-  print('Valeurs inférieures en norme à 10^(-10) : ',valeur_ok, '\n')
+  print('Values lower in norm than 10^(-10) : ',valeur_ok, '\n')
 
 
 test_polynomial_root_calculation_3rd_degree(np.random.uniform(-20,20),np.random.uniform(-20,20),np.random.uniform(-20,20),np.random.uniform(-20,20))
@@ -57,7 +57,7 @@ def test_polynomial_root_calculation_4th_degree_ferrari(a0,a1,a2,a3,a4,):
 
     if np.linalg.norm(y) > 10**(-10) :
       valeur_ok = False
-      
-  print('Valeurs inférieures en norme à 10^(-10) : ',valeur_ok, '\n')
+
+  print('Values lower in norm than 10^(-10) : ',valeur_ok, '\n')
 
 test_polynomial_root_calculation_4th_degree_ferrari(np.random.uniform(-20,20),np.random.uniform(-20,20),np.random.uniform(-20,20),np.random.uniform(-20,20),np.random.uniform(-20,20))
