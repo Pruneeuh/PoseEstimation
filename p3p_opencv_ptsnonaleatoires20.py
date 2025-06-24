@@ -153,7 +153,7 @@ for i in range (nb_solutions):
     print("erreur = ",erreur_pt)
     erreurs[i]+=erreur_pt
 
-# Fin de best solution
+# Find de best solution
 indice_max = 0
 max = erreurs[0]
 for i in range(1,len(erreurs)) :
@@ -165,6 +165,6 @@ rodriguez = rvec[indice_max]
 R_estime = cv2.Rodrigues(rodriguez)[0]
 T_estime = tvecs[indice_max]    # translation matrix : (1*3)
 T_estime = np.reshape(T_P3P,(3,1))
-
+print("%%% Best solution : ")
 print("\n R estimé = ", R_estime,"\n")
 print("T estimé = ", T_estime, "\n")

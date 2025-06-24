@@ -43,6 +43,21 @@ def affichage_erreur(solutions,points2D,points3D,A) :
             erreur_pt = distance(points2D[j],pt_2D_P3P[j])
             print("erreur_pt",j," = ",erreur_pt)
             erreurs[i]+=erreur_pt
+        
+   indice_max = 0
+   max = erreurs[0]
+   for i in range(1,len(erreurs)) :
+    if erreurs[i]>max :
+      max = erreurs[i]
+      indice_max = i
+
+   R = solutions[indice_max,:,1:] 
+   C = solutions[indice_max,:,:1]
+   print("\n------------ Best solution : ----------------")
+   print("Solution n° :",indice_max,"\n")
+   print("R estimé = ", R,"\n")
+   print("T estimé = ", C, "\n")
+
 
 def comparaison_numpy_openCV(solution_openCV,solution_numpy) : 
   print("--------- Solutions : --------------------- ")
