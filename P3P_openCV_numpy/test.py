@@ -44,19 +44,19 @@ def affichage_erreur(solutions,points2D,points3D,A) :
             print("erreur_pt",j," = ",erreur_pt)
             erreurs[i]+=erreur_pt
         
-   indice_max = 0
-   max = erreurs[0]
+   indice_min = 0
+   min = erreurs[0]
    for i in range(1,len(erreurs)) :
-    if erreurs[i]>max :
-      max = erreurs[i]
-      indice_max = i
+    if erreurs[i]<min :
+      min = erreurs[i]
+      indice_min = i
 
-   R = solutions[indice_max,:,1:] 
-   C = solutions[indice_max,:,:1]
+   R_opti = solutions[indice_min,:,1:] 
+   C_opti = solutions[indice_min,:,:1]
    print("\n------------ Best solution : ----------------")
-   print("Solution n° :",indice_max,"\n")
-   print("R estimé = ", R,"\n")
-   print("T estimé = ", C, "\n")
+   print("Solution n° :",indice_min+1,"\n")
+   print("R estimé = \n", R_opti,"\n")
+   print("T estimé = \n", C_opti, "\n")
 
 
 def comparaison_numpy_openCV(solution_openCV,solution_numpy) : 
