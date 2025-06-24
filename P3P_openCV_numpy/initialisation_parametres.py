@@ -15,21 +15,25 @@ def camera() :
 A = camera()
 
 def rotation_matrix() : 
+  # Definition of the rotation matrix of the camera 
   R = np.array([[1, 0, 0],[0, -1, 0], [0, 0, -1]])
   print("R = \n",R)
   return R
 
 def camera_translation() : 
+  # Definition of the translation matrix of the camera (the position)
   T = np.array([[0,0,6]])    # T = [tx,ty,tz]  (1*3)
   T = T.reshape((3,1))                       # (3*1)
   print("T = \n",T)
   return T
 
 def point3Daleatoire(x) :
+  # Generation of one random points in 3D space 
   return np.array([[np.random.uniform(-x,x),np.random.uniform(-x,x),np.random.uniform(-x,x)]])
 
 def pts_3D_4pts():
-  # generate randomly 4 3D points 
+  # Generate randomly 4 3D points
+  # Output : array which concatenate the 4th points = [ P1, P2, P3, P4 ] 
 
   P1 = point3Daleatoire(2)     # (1*3) -> pour P3P
   P2 = point3Daleatoire(2)
@@ -40,7 +44,7 @@ def pts_3D_4pts():
   return points3D
 
 def pts_3D_3pts(pts_3D_4pts):
-  # return only the 3 first points uses in P3P
+  # Return only the 3 first points uses in P3P
 
   return pts_3D_4pts[:,:3]
 
@@ -49,6 +53,7 @@ def projection3D2D(point3D,T,R,A) :
   # T : camera translation matrix : (3*1)
   # R : camera rotation matrix : (3*3)
   # A : intraseca matrix of the camera : (3*3)
+  # Output : return the coordonates of the point in 2D 
 
   PI = np.concatenate((np.eye(3),np.zeros((3,1))),axis=1)  # (3*4)
   
@@ -63,12 +68,19 @@ def projection3D2D(point3D,T,R,A) :
 
 
 def pts_2D_4pts(points3D,T,R,A): 
-  # Gerenrate the 2pt from  3d points and camera's parameters
+  # Gerenrate the 2D points from 3D points and camera's parameters
+  # points3D : array with the 4 3D points = [ P1, P2, P3, P4 ] 
+  # T : camera translation matrix : (3*1)
+  # R : camera rotation matrix : (3*3)
+  # A : intraseca matrix of the camera : (3*3)
+
+  # Recovery of each 3D point 
   P1 = points3D[0]
   P2 = points3D[1]
   P3 = points3D[2]
   P4 = points3D[3]
 
+  # Projection from 3D to 2D of each point
   p1 = projection3D2D(P1,T,R,A)   # (2*1)
   p1 = np.reshape(p1,(1,2))       # (1,2)
   p2 = projection3D2D(P2,T,R,A)
@@ -82,9 +94,14 @@ def pts_2D_4pts(points3D,T,R,A):
   return points2D
 
 def pts_2D_3pts(points_2D_4pts) : 
+  # Return only the 3 first points uses in P3P
   return points_2D_4pts[:,:3]
 
 def features_vectors(points3D,T) :
+  # Return the features vectors need in P3P
+  # points3D : array with the 4 3D points = [ P1, P2, P3, P4 ] (3*3)
+  # T : camera translation matrix : (3*1)
+
   P1 = points3D[0]
   P2 = points3D[1]
   P3 = points3D[2]
@@ -94,5 +111,6 @@ def features_vectors(points3D,T) :
   f3 = (P3 - np.transpose(T)) / np.linalg.norm(P3 - T)
   
   featuresVect = np.concatenate((f1,f2,f3),axis=0)
-  print("featuresVect = \n",featuresVect)
+  print("features vectors = \n",featuresVect)
+
   return featuresVect
