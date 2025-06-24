@@ -1,0 +1,5 @@
+# Fichiers compilés Python
+*.pyc
+
+# Dossiers de cache Python
+__pycache__/
