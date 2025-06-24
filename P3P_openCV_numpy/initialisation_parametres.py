@@ -33,7 +33,7 @@ def point3Daleatoire(x) :
 
 def pts_3D_4pts():
   # Generate randomly 4 3D points
-  # Output : array which concatenate the 4th points = [ P1, P2, P3, P4 ] 
+  # Output : array which concatenate the 4 points = [ P1, P2, P3, P4 ] 
 
   P1 = point3Daleatoire(2)     # (1*3) -> pour P3P
   P2 = point3Daleatoire(2)
