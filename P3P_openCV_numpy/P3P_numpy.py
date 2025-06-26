@@ -101,15 +101,23 @@ def P3P(pt3D,featuresVectors):
     - the remaining 3 columns store the rotation matrix R (3,3)
 '''
   # Features Points
+
   P1 = pt3D[0]
   P2 = pt3D[1]
   P3 = pt3D[2]
+  
+  print("\n Features points : ")
+  print("P1 = ",P1)
+  print("P2 = ",P2)
+  print("P3 = ",P3)
 
 
   # Features Vectors
   f1 = featuresVectors[0]
   f2 = featuresVectors[1]
   f3 = featuresVectors[2]
+
+  print("\nFeatures vectors : ")
   print("f1 = ", f1)
   print("f2 = ", f2)
   print("f3 = ", f3)
@@ -122,31 +130,31 @@ def P3P(pt3D,featuresVectors):
   v1 = P2 - P1
   v2 = P3 - P1
   if np.linalg.norm(np.cross(v1,v2))==0 :
-    print('Problem: the points must not be collinear')
+    print('\n Problem: the points must not be collinear')
     return
   else:
-    print('The points are not collinear : P3P can be correctly applied ')
+    print('\n The points are not collinear : P3P can be correctly applied ')
 
   # Calculation of vectors of the base τ = (C,tx,ty,tz)
   tx = f1         # (3,)
   tz = np.cross(f1,f2)/np.linalg.norm(np.cross(f1,f2))
   ty = np.cross(tz,tx)
-  print("tx = ", tx)
-  print("tz = ", tz)
-  print("ty = ", ty)
+ 
   tx = np.reshape(tx,(1,3))   # (1*3)
   ty = np.reshape(ty,(1,3))
   tz = np.reshape(tz,(1,3))
 
-  # Computation of the matrix T and the feature vector f3
+  print("\n Vectors of the base τ = (C,tx,ty,tz)")
+  print("tx = ", tx)
+  print("ty = ", ty)
+  print("tz = ", tz)
+
+  # Computation of the matrix T and the feature vector f3_T
   T = np.concatenate((tx,ty,tz),axis = 0) # (3*3)
   f3_T = np.dot(T,f3) # (3,)
-
-  print("tx = \n", tx)
-  print("ty = \n", ty)
-  print("tz = \n", tz)
-  print("f3_T = \n", f3_T)
+  
   print("T = \n", T)
+  print("f3_T = ", f3_T)
 
   # Having teta in [ 0, pi ] 
   if f3_T[2] > 0 : 
@@ -174,24 +182,22 @@ def P3P(pt3D,featuresVectors):
   nx = (P2 - P1)/np.linalg.norm(P2 - P1)      #(3,)
   nz = np.cross(nx,P3-P1)/np.linalg.norm(np.cross(nx,P3-P1))  
   ny = np.cross(nz,nx)
+  
+  nx = np.reshape(nx,(1,3))     # (1,3)
+  ny = np.reshape(ny,(1,3))
+  nz = np.reshape(nz,(1,3))
+  print("\n Vectors of the base η = (P1,nx,ny,nz)")
   print("nx = ", nx)
   print("ny = ", ny)
   print("nz = ", nz)
 
-  nx = np.reshape(nx,(1,3))     # (1,3)
-  ny = np.reshape(ny,(1,3))
-  nz = np.reshape(nz,(1,3))
-  print("nx = \n", nx)
-  print("ny = \n", ny)
-  print("nz = \n", nz)
-
   # Computation of the matrix N and the world point P3
   N = np.concatenate((nx,ny,nz),axis = 0) # (3*3)
-
   P3_N = np.dot(N,P3-P1) # (3,)
   print("N = \n", N)
-  print("P3_n = \n", P3_N)
+  print("P3_n = ", P3_N)
 
+  print("\n All variables needed for the coefficients of the polynomial : ")
   # Computation of phi1 et phi2
   phi1 = f3_T[0]/f3_T[2]
   phi2 = f3_T[1]/f3_T[2]
@@ -224,6 +230,8 @@ def P3P(pt3D,featuresVectors):
   a2 = - phi2**2 * p1**2 * p2**2 - phi2**2 * p2**2 * d12**2 * b**2 - phi2**2 * p2**2 * d12**2 + phi2**2 * p2**4 + phi1**2 * p2 **4 + 2 * p1 * p2**2 * d12 + 2 * phi1 * phi2 * p1 * p2**2 * d12 * b - phi1**2 * p1**2 * p2**2 + 2 * phi2**2 * p1 * p2**2 * d12 - p2**2 * d12**2 * b**2 - 2 * p1**2 * p2**2
   a1 = 2 * p1**2 * p2 * d12 * b + 2 * phi1 * phi2 * p2**3 * d12 - 2 * phi2**2 * p2**3 * d12 * b - 2 * p1 * p2 * d12**2 * b
   a0 = - 2 * phi1 * phi2 * p1 * p2**2 * d12 * b + phi2**2 * p2**2 * d12**2 + 2 * p1**3 * d12 - p1**2 * d12**2 + phi2**2 * p1**2 * p2**2 - p1**4 - 2 * phi2**2 * p1 * p2**2 * d12 + phi1**2 * p1**2 * p2**2 + phi2**2 * p2**2 * d12**2 * b**2
+  
+  print("\n Coefficients of the polynomial")
   print("a4 = ", a4)
   print("a3 = ", a3)
   print("a2 = ", a2)
@@ -232,7 +240,10 @@ def P3P(pt3D,featuresVectors):
   
   # Computation of the roots
   roots = polynomial_root_calculation_4th_degree_ferrari(np.array([a0,a1,a2,a3,a4])) # (4,)
+  
+  print("\n Roots of the polynomial")
   print("roots = \n", roots)
+
   # For each solution of the polynomial
   for i in range(4):
     #if np.isclose(np.imag(roots[i]),0) : # if real solution 
@@ -250,21 +261,19 @@ def P3P(pt3D,featuresVectors):
       cos_alpha = -cos_alpha
 
     # Computation of the intermediate rotation's matrixs
-    C = [d12*cos_alpha*(sin_alpha*b + cos_alpha), d12*sin_alpha*cos_teta*(sin_alpha*b+cos_alpha), d12*sin_alpha*sin_teta*(sin_alpha*b+cos_alpha)]     # (3,)
-    print("C=",C)
+    C_estime = [d12*cos_alpha*(sin_alpha*b + cos_alpha), d12*sin_alpha*cos_teta*(sin_alpha*b+cos_alpha), d12*sin_alpha*sin_teta*(sin_alpha*b+cos_alpha)]     # (3,)
     Q = [[-cos_alpha, -sin_alpha*cos_teta, -sin_alpha*sin_teta], [sin_alpha, -cos_alpha*cos_teta, -cos_alpha*sin_teta], [0, -sin_teta, cos_teta]]      # (3*3)
-    print("Q=",Q)
+    
     # Computation of the absolute camera center
-    C = P1 + np.transpose(N) @ C  # (3,)
-    print("C",C)
-    C = C[:,np.newaxis]   # (3,1)
-    print("C new axis",C)
+    C_estime = P1 + np.transpose(N) @ C_estime  # (3,)
+    C_estime= C_estime[:,np.newaxis]   # (3,1)
+    
     # Computation of the orientation matrix
-    R = np.transpose(N) @ np.transpose(Q) @ T   # (3*3)
-    print("R",R)
+    R_estime = np.transpose(N) @ np.transpose(Q) @ T   # (3*3)
+    
     # Adding C and R to the solutions
-    solutions[i,:,:1]= C
-    solutions[i,:,1:] = R
+    solutions[i,:,:1]= C_estime
+    solutions[i,:,1:] = R_estime
 
 
   return solutions

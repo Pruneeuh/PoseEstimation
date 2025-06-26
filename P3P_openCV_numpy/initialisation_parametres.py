@@ -14,7 +14,6 @@ def camera() :
   print("A = \n", A)
   return A
 
-A = camera() 
 
 def rotation_matrix() : 
   # Definition of the rotation matrix of the camera 
@@ -45,7 +44,6 @@ def pts_3D_4pts():
   P4 = point3Daleatoire(2)
   
   points3D = np.concatenate((P1,P2,P3,P4),axis=0);     # (LIGNES 4* COLONNES 3) - xyz
-  print("points3D = \n", points3D)
   return points3D
 
 def projection3D2D(point3D,C,R,A) :
@@ -56,8 +54,6 @@ def projection3D2D(point3D,C,R,A) :
   # Output : return the coordonates of the point in 2D 
 
   PI = np.concatenate((np.eye(3),np.zeros((3,1))),axis=1)  # (3*4)
-  print("C:",C,np.shape(C),type(C))
-  print("R:",R,np.shape(R),type(R))
 
   Rt = np.concatenate((R,C),axis=1)               # (3*4)
   Rt = np.concatenate((Rt,np.array([[0,0,0,1]])),axis=0)   # (4*4)
@@ -84,12 +80,14 @@ def pts_2D_4pts(points3D,C,R,A):
   
   # Projection from 3D to 2D of each point
   p1 = projection3D2D(P1,C,R,A)
-  print("p1 = ", p1)
   p2 = projection3D2D(P2,C,R,A)
-  print("p2 = ", p2)
   p3 = projection3D2D(P2,C,R,A)
-  print("p3 = ", p3)
   p4 = projection3D2D(P4,C,R,A)
+
+  print("\n 2D points : ")
+  print("p1 = ", p1)
+  print("p2 = ", p2)
+  print("p3 = ", p3)
   print("p4 = ", p4)
 
   return [p1,p2,p3,p4]
@@ -114,6 +112,5 @@ def features_vectors(points3D,C) :
     f3 = (P3 - C) / np.linalg.norm(P3 - C)
     
     featuresVect = np.concatenate((f1,f2,f3),axis=0)
-    print("features vectors = \n",featuresVect)
 
     return featuresVect # Return the features vectors need in P3P
