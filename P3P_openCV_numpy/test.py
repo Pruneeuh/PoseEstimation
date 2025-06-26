@@ -2,7 +2,9 @@ import numpy as np
 from initialisation_parametres import projection3D2D
 
 def distance(pt, pt_estimation):
+    # Euclidean distance between 2 points  
     erreur = 0
+    print(pt.shape)
     for i in range(len(pt)):
       erreur += (pt[i] - pt_estimation[i])**2
     return np.sqrt(erreur)
@@ -23,14 +25,14 @@ def affichage_erreur(solutions,points2D,points3D,A) :
    nb_sol = 0
 
    for i in range(len(solutions)) : 
-      R = solutions[i,:,1:] 
-      C = solutions[i,:,:1]
+      R = solutions[i,:,1:]   # Rotation matrix (3*3)
+      C = solutions[i,:,:1]   # Position matrix (3*1)
 
       if not np.all(R==np.zeros((3,3))) : 
         nb_sol += 1 
         print("------------ Solution n° : ",nb_sol,"----------------")
         print("R = \n",R,)
-        print("T = \n",C,)
+        print("C = \n",C,)
 
         p1_P3P = np.reshape(projection3D2D(P1,C,R,A),(1,2))
         p2_P3P = np.reshape(projection3D2D(P2,C,R,A),(1,2))
@@ -43,7 +45,8 @@ def affichage_erreur(solutions,points2D,points3D,A) :
             erreur_pt = distance(points2D[j],pt_2D_P3P[j])
             print("erreur_pt",j," = ",erreur_pt)
             erreurs[i]+=erreur_pt
-        
+
+   # Find the best solution (with the smallest estimation error)     
    indice_min = 0
    min = erreurs[0]
    for i in range(1,len(erreurs)) :
@@ -53,10 +56,11 @@ def affichage_erreur(solutions,points2D,points3D,A) :
 
    R_opti = solutions[indice_min,:,1:] 
    C_opti = solutions[indice_min,:,:1]
+   
    print("\n------------ Best solution : ----------------")
    print("Solution n° :",indice_min+1,"\n")
    print("R estimé = \n", R_opti,"\n")
-   print("T estimé = \n", C_opti, "\n")
+   print("C estimé = \n", C_opti, "\n")
 
 
 def comparaison_numpy_openCV(solution_openCV,solution_numpy) : 
