@@ -62,9 +62,3 @@ def affichage_erreur(solutions,points2D,points3D,A) :
    print("R estimé = \n", R_opti,"\n")
    print("C estimé = \n", C_opti, "\n")
 
-
-def comparaison_numpy_openCV(solution_openCV,solution_numpy) : 
-  print("--------- Solutions : --------------------- ")
-  print("Solution open CV : \n",solution_openCV)
-  print("Solution numpy : \n",solution_numpy)
-  
