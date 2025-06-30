@@ -257,6 +257,12 @@ def P3P(pt3D,featuresVectors):
     sin_alpha = np.sqrt(1/(cot_alpha**2+1))
     cos_alpha= np.sqrt(1-sin_alpha**2)
 
+    
+    print('cos teta',cos_teta)
+    print('sin teta',sin_teta)
+    print('cos alpha', cos_alpha)
+    print('sin alpha', sin_alpha)
+
     if cot_alpha < 0 :
       cos_alpha = -cos_alpha
 

@@ -93,24 +93,38 @@ def pts_2D_4pts(points3D,C,R,A):
   return [p1,p2,p3,p4]
 
 
-def features_vectors(points3D,C) :
+def features_vectors(points3D,C,R) :
     '''
     This function computes the features vectors for P3P algorithm.
     args:
     points3D : array with the 4 3D points = [ P1, P2, P3, P4 ] (4*3) 
     but we only use the first three points for P3P
     C: camera position matrix : (1*3)
+    R : camera rotation matrix : (3*3)
     returns:
     featuresVect : array with the features vectors (3*3)
     '''
-    P1 = points3D[0]
-    P2 = points3D[1]
-    P3 = points3D[2]
 
-    f1 = (P1 - C) / np.linalg.norm(P1 - C)
-    f2 = (P2 - C) / np.linalg.norm(P2 - C)
-    f3 = (P3 - C) / np.linalg.norm(P3 - C)
+    P1 = np.reshape(points3D[0],(3,1))  
+    P2 = np.reshape(points3D[1],(3,1))
+    P3 = np.reshape(points3D[2],(3,1))
+
+    C = np.transpose(C)     #(3*1)
+   
+    v1 = R @ (P1 - C)           # (3*1)
+    v2 = R @ (P2 - C)
+    v3 = R @ (P3 - C)
+
+    f1 = v1/np.linalg.norm(v1)
+    f2 = v2/np.linalg.norm(v2)
+    f3 = v3/np.linalg.norm(v3)
+
+    f1 = np.reshape(f1 / np.linalg.norm(f1),(1,3))
+    f2 = np.reshape(f2 / np.linalg.norm(f2),(1,3))
+    f3 = np.reshape(f3 / np.linalg.norm(f3),(1,3))
+
     
     featuresVect = np.concatenate((f1,f2,f3),axis=0)
+    print("features vectors = \n",featuresVect)
 
     return featuresVect # Return the features vectors need in P3P
