@@ -11,6 +11,7 @@ def recup_solutions_openCV(points2D, points3D, A) :
   
 
   retval, rvec, tvecs =  cv2.solveP3P(points3D,points2D,A,None, flags = cv2.SOLVEPNP_P3P)
+  
   solutions = np.zeros((4,3,4))     # (4*3*4)
 
   for i in range(len(rvec)) : 

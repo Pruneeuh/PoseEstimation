@@ -14,7 +14,7 @@ pt_3D = pts_3D_4pts()
 
 
 # Generate the features vectors : fi = CPi / ||CPi||
-features_vectors = features_vectors(pt_3D,C)
+features_vectors = features_vectors(pt_3D,C,R)
 
 # Recover the P3P solutions 
 solution_numpy = P3P(pt_3D,features_vectors)

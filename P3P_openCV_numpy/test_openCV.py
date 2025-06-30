@@ -18,6 +18,8 @@ P4 = point3Daleatoire(2)
 
 points3D_4 = np.concatenate((P1,P2,P3,P4),axis=0);     # (3*3)
 points3D = points3D_4[:,:3]
+print("pt3D : ", points3D_4)
+
 
 # Generate the 2D points
 p1 = projection3D2D(P1,C_transpose,R,A)   # (2*1)Add commentMore actions

@@ -1,10 +1,10 @@
 import numpy as np 
 from initialisation_parametres import projection3D2D
+import matplotlib.pyplot as plt
 
 def distance(pt, pt_estimation):
     # Euclidean distance between 2 points  
     erreur = 0
-    print(pt.shape)
     for i in range(len(pt)):
       erreur += (pt[i] - pt_estimation[i])**2
     return np.sqrt(erreur)
@@ -45,6 +45,7 @@ def affichage_erreur(solutions,points2D,points3D,A) :
             erreur_pt = distance(points2D[j],pt_2D_P3P[j])
             print("erreur_pt",j," = ",erreur_pt)
             erreurs[i]+=erreur_pt
+
 
    # Find the best solution (with the smallest estimation error)     
    indice_min = 0
