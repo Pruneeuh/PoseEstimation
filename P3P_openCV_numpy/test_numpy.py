@@ -1,9 +1,9 @@
 from initialisation_parametres import *
 from P3P_numpy import P3P
-from test import *
+from print_results import *
 
 # Generate the camera matrixs
-print("Parameters of the camara : ")
+print("Parameters of the camera : ")
 A = camera()  # intraseca
 R = rotation_matrix()
 C = camera_position()
@@ -23,4 +23,4 @@ solution_numpy = P3P(pt_3D,features_vectors)
 pt_2D = pts_2D_4pts(pt_3D,C_transpose,R,A)
 
 # Computation of the errors 
-affichage_erreur(solution_numpy,pt_2D,pt_3D,A)
+print_results(solution_numpy,pt_2D,pt_3D,A)

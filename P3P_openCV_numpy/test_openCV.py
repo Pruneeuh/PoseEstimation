@@ -1,6 +1,6 @@
 from initialisation_parametres import *
 from P3P_openCV import *
-from test import *
+from print_results import *
 
 # Generate the camera matrixs
 A = camera()        # intraseca
@@ -39,4 +39,4 @@ points2D = points2D_4[:,:3]
 solution_openCV = recup_solutions_openCV(points2D_4,points3D_4,A)
 
 # Computation of the errors 
-affichage_erreur(solution_openCV,points2D_4,points3D_4,A)
+print_results(solution_openCV,points2D_4,points3D_4,A)

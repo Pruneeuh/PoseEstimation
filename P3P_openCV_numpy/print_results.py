@@ -9,7 +9,7 @@ def distance(pt, pt_estimation):
       erreur += (pt[i] - pt_estimation[i])**2
     return np.sqrt(erreur)
 
-def affichage_erreur(solutions,points2D,points3D,A) : 
+def print_results(solutions,points2D,points3D,A) : 
    # Compute the error of estimation for each points after the P3P algorithm 
 
    # solutions : solution matrix returned by P3P (4*3*4)
@@ -43,7 +43,7 @@ def affichage_erreur(solutions,points2D,points3D,A) :
         erreurs.append([0])
         for j in range(len(points2D)):
             erreur_pt = distance(points2D[j],pt_2D_P3P[j])
-            print("erreur_pt",j," = ",erreur_pt)
+            print("erreur P",j+1," = ",erreur_pt)
             erreurs[i]+=erreur_pt
 
 

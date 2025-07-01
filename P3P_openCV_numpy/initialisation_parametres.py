@@ -4,11 +4,11 @@ import numpy as np
 def camera() : 
   # Definition of the camera parameters
   # focal length
-  fx = 60
-  fy = 40
+  fx = 800
+  fy = 800
   # center
-  cx = 0
-  cy = 0
+  cx = 320
+  cy = 240
 
   A = np.array([[fx, 0, cx], [0, fy, cy], [0, 0, 1]]) # intraseca matrix of the camera (3*3)
   print("A = \n", A)
