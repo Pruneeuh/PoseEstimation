@@ -155,10 +155,12 @@ def P3P(pt3D,featuresVectors):
   
   print("T = \n", T)
   print("f3_T = ", f3_T)
-
+  f3_T_positif = False
+  
   # Having teta in [ 0, pi ] 
   if f3_T[2] > 0 : 
-    # Features Vectors
+    f3_T_positif = True
+    '''# Features Vectors
     f1 = featuresVectors[1]
     f2 = featuresVectors[0]
     f3 = featuresVectors[2]
@@ -174,7 +176,7 @@ def P3P(pt3D,featuresVectors):
 
     # Computation of the matrix T and the feature vector f3
     T = np.concatenate((tx,ty,tz),axis = 0) # (3*3)
-    f3_T = np.dot(T,f3) # (3,)
+    f3_T = np.dot(T,f3) # (3,)'''
 
 
 
@@ -250,18 +252,16 @@ def P3P(pt3D,featuresVectors):
 
     # Computation of trigonometrics forms
     cos_teta = np.real(roots[i])
-    sin_teta = np.sqrt(1-cos_teta**2)
+    if f3_T_positif == True : # teta dans [-pi,0]
+      sin_teta = - np.sqrt(1-cos_teta**2)
+    else : # f3_T négatif donc teta dans [0,pi]
+      sin_teta = np.sqrt(1-cos_teta**2)
+
 
     cot_alpha = ((phi1/phi2)*p1 + cos_teta*p2 -d12*b )/ ((phi1/phi2)*cos_teta* p2 - p1 + d12)
 
     sin_alpha = np.sqrt(1/(cot_alpha**2+1))
     cos_alpha= np.sqrt(1-sin_alpha**2)
-
-    
-    print('cos teta',cos_teta)
-    print('sin teta',sin_teta)
-    print('cos alpha', cos_alpha)
-    print('sin alpha', sin_alpha)
 
     if cot_alpha < 0 :
       cos_alpha = -cos_alpha
@@ -280,7 +280,7 @@ def P3P(pt3D,featuresVectors):
     # Adding C and R to the solutions
     solutions[i,:,:1]= C_estime
     solutions[i,:,1:] = R_estime
-
+  print("positif",f3_T_positif)
 
   return solutions
 
