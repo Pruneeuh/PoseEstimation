@@ -81,7 +81,7 @@ def pts_2D_4pts(points3D,C,R,A):
   # Projection from 3D to 2D of each point
   p1 = projection3D2D(P1,C,R,A)
   p2 = projection3D2D(P2,C,R,A)
-  p3 = projection3D2D(P2,C,R,A)
+  p3 = projection3D2D(P3,C,R,A)
   p4 = projection3D2D(P4,C,R,A)
 
   print("\n 2D points : ")
